@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace DoodleJump
@@ -10,16 +11,22 @@ namespace DoodleJump
     {
         private GAME_STATE gameState;
 
+        public GameObject score;
+        TextMeshProUGUI scoreinput;
+
+        public GameObject mainCamera;
+        public float currentScore;
+
         // Start is called before the first frame update
         void Start()
         {
-
+            scoreinput = score.GetComponent<TextMeshProUGUI>();
         }
 
-        // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
-
+            currentScore = mainCamera.transform.position.y;
+            scoreinput.text = ((int)(currentScore*10)).ToString();
         }
     }
 }

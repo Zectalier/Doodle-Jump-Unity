@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     Rigidbody2D m_Rigidbody;
 
     public Transform background;
+
     float leftx;
     float rightx;
 
