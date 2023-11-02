@@ -158,8 +158,8 @@ MonoBehaviour:
   mainCamera: {fileID: 519420028}
   currentScore: 0
   dist_platform: 0
-  min_x: -3
-  max_x: 3
+  min_x: -2.6
+  max_x: 2.6
 --- !u!4 &72718490
 Transform:
   m_ObjectHideFlags: 0
