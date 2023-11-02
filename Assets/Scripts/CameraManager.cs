@@ -1,3 +1,4 @@
+using DoodleJump;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,8 @@ public class CameraManager : MonoBehaviour
 {
 
     public Transform target;
-
+    public GameObject gameManager;
+    GameManager gm;
     public Transform backg1;
     public Transform backg2;
 
@@ -15,6 +17,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         size = backg1.GetComponent<BoxCollider2D>().size.y;
+        gm = gameManager.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -38,6 +41,7 @@ public class CameraManager : MonoBehaviour
         Transform temp = backg1;
         backg1 = backg2;
         backg2 = temp;
+        gm.spawnNextPlatforms(backg1.position.y + size/2, backg1.position.y + size + size / 2);
     }
 
 }
