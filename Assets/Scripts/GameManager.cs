@@ -11,6 +11,7 @@ namespace DoodleJump
     {
         private GAME_STATE gameState;
 
+        public GameObject UIManager;
         public GameObject platformPrefab;
 
         public GameObject platformGenConfig;
@@ -35,8 +36,15 @@ namespace DoodleJump
 
         void FixedUpdate()
         {
-            currentScore = mainCamera.transform.position.y;
-            scoreinput.text = ((int)(currentScore*10)).ToString();
+            if(gameState != GAME_STATE.gameOver)
+            {
+                currentScore = mainCamera.transform.position.y;
+                scoreinput.text = ((int)(currentScore*10)).ToString();
+            }
+            else
+            {
+                UIManager.GetComponent<UIManager>().showEnd();
+            }
         }
 
         public void spawnNextPlatforms(float min_y, float max_y)
@@ -116,6 +124,16 @@ namespace DoodleJump
                     Instantiate(platformPrefab, pos, Quaternion.identity);
                     break;
             }
+        }
+
+        public GAME_STATE getGameState()
+        {
+            return gameState;
+        }
+
+        public void setGameState(GAME_STATE state)
+        {
+            gameState = state;
         }
     }
 }

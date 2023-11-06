@@ -11,7 +11,7 @@ public class CameraManager : MonoBehaviour
     GameManager gm;
     public Transform backg1;
     public Transform backg2;
-
+    public Transform endMenu;
     float size;
     // Start is called before the first frame update
     void Start()
@@ -27,12 +27,19 @@ public class CameraManager : MonoBehaviour
         {
             Vector3 targetPos = new Vector3(transform.position.x, target.position.y, transform.position.z);
             transform.position = targetPos;
+            endMenu.position = new Vector3(endMenu.position.x, target.position.y-size, endMenu.position.z);
         }
 
         if(transform.position.y >= backg2.position.y)
         {
             backg1.position = new Vector3(transform.position.x,backg2.position.y + size, backg1.position.z);
             switchBg();
+        }
+
+        if(gm.getGameState()==GAME_STATE.gameOver && target.position.y > endMenu.position.y)
+        {
+            Vector3 targetPos = new Vector3(transform.position.x, target.position.y, transform.position.z);
+            transform.position = targetPos;
         }
     }
 

@@ -1,9 +1,12 @@
+using DoodleJump;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameObject gameManager;
+    GameManager gm;
     public float MovementSpeed = 1.0f;
     Rigidbody2D m_Rigidbody;
 
@@ -11,11 +14,11 @@ public class Player : MonoBehaviour
 
     float leftx;
     float rightx;
-
     float moveX = 0f;
     // Start is called before the first frame update
     void Start()
     {
+        gm = gameManager.GetComponent<GameManager>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
         rightx = background.GetComponent<BoxCollider2D>().size.x / 2;
         leftx = -rightx;
@@ -54,6 +57,20 @@ public class Player : MonoBehaviour
         {
             Vector2 newPos = new Vector2(leftx, transform.position.y);
             transform.position = newPos;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Finish")
+        {
+            if (gm.getGameState() == GAME_STATE.gameOver){
+                this.gameObject.SetActive(false);
+            }
+            else{
+                gm.setGameState(GAME_STATE.gameOver);
+            }
+            
         }
     }
 }
