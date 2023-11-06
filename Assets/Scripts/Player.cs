@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         moveX = Input.GetAxis("Horizontal");
+
+        
     }
 
     private void FixedUpdate()
@@ -33,12 +35,22 @@ public class Player : MonoBehaviour
         velocity.x = moveX * MovementSpeed;
         m_Rigidbody.velocity = velocity;
 
-        if(transform.position.x < leftx)
+        // Make the sprite flip using the moveX (do not count 0) and keep scales
+        Vector3 scale = transform.localScale;
+
+        if (moveX < 0)
+            scale.x = 1;
+        else if (moveX > 0)
+            scale.x = -1;
+
+        transform.localScale = scale;
+
+        if (transform.position.x < leftx)
         {
             Vector2 newPos = new Vector2(rightx, transform.position.y);
             transform.position = newPos;
         }
-        else if(transform.position.x > rightx)
+        else if (transform.position.x > rightx)
         {
             Vector2 newPos = new Vector2(leftx, transform.position.y);
             transform.position = newPos;
