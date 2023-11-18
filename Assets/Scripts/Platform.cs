@@ -27,6 +27,9 @@ public class Platform : MonoBehaviour
         Debug.Log("trigger");
         if (collision.tag == "Finish")
             Destroy(this.gameObject);
+        else if (collision.tag == "Player" && platformType == "Breakable")
+            if(collision.attachedRigidbody.velocity.y <= 0F)
+                ApplySpecialBehaviour(platformType);
     }
 
     private void ApplySpecialBehaviour(string type)
@@ -34,10 +37,16 @@ public class Platform : MonoBehaviour
         switch (platformType)
         {
             case "Spring":
-                Spring comp = gameObject.GetComponent<Spring>();
-                comp.swapSprite();
+                Spring spr = gameObject.GetComponent<Spring>();
+                spr.swapSprite();
                 EdgeCollider2D edgeCollider2D = gameObject.GetComponent<EdgeCollider2D>();
                 edgeCollider2D.isTrigger = true;
+                break;
+            case "Breakable":
+                Breakable brk = gameObject.GetComponent<Breakable>();
+                brk.swapSprite();
+                Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
+                rigidbody.bodyType = RigidbodyType2D.Dynamic;
                 break;
         }
     }

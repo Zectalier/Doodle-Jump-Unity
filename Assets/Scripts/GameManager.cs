@@ -14,6 +14,7 @@ namespace DoodleJump
         public GameObject UIManager;
         public GameObject platformPrefab;
         public GameObject springPrefab;
+        public GameObject breakablePrefab;
 
         public GameObject platformGenConfig;
         PlatformConfigManager genConfig;
@@ -67,7 +68,7 @@ namespace DoodleJump
                 ind.Add(entry.Key);
                 probs.Add(entry.Value + totalprob);
                 totalprob += entry.Value;
-                if(entry.Key != "Nothing")
+                if(entry.Key != "Nothing" && entry.Key != "BreakablePlatform")
                 {
                     ind_jumpable.Add(entry.Key);
                     probs_jumpable.Add(entry.Value + totalprob_jumpable);
@@ -90,7 +91,12 @@ namespace DoodleJump
                             break;
                         }
                     }
-                    if (platform_chosen != "Nothing")
+                    if (platform_chosen == "BreakablePlatform")
+                    {
+                        spawnPlatform(platform_chosen, current_y, min_x, max_x);
+                        last_jumpable_platform++;
+                    }
+                    else if (platform_chosen != "Nothing")
                     {
                         spawnPlatform(platform_chosen, current_y, min_x, max_x);
                         last_jumpable_platform = 0;
@@ -131,6 +137,9 @@ namespace DoodleJump
                     Vector3 springPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.24), 0);
                     GameObject s = Instantiate(springPrefab, springPos, Quaternion.identity);
                     s.transform.parent = plat.transform;
+                    break;
+                case "BreakablePlatform":
+                    Instantiate(breakablePrefab, pos, Quaternion.identity);
                     break;
             }
         }
