@@ -5,6 +5,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     public float jumpForce = 10f;
+    public string platformType = "Default";
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -16,6 +17,7 @@ public class Platform : MonoBehaviour
                 Vector2 velocity = rb.velocity;
                 velocity.y = jumpForce;
                 rb.velocity = velocity;
+                ApplySpecialBehaviour(platformType);
             }
         }
     }
@@ -25,5 +27,18 @@ public class Platform : MonoBehaviour
         Debug.Log("trigger");
         if (collision.tag == "Finish")
             Destroy(this.gameObject);
+    }
+
+    private void ApplySpecialBehaviour(string type)
+    {
+        switch (platformType)
+        {
+            case "Spring":
+                Spring comp = gameObject.GetComponent<Spring>();
+                comp.swapSprite();
+                EdgeCollider2D edgeCollider2D = gameObject.GetComponent<EdgeCollider2D>();
+                edgeCollider2D.isTrigger = true;
+                break;
+        }
     }
 }

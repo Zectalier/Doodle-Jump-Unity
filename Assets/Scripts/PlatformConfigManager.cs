@@ -19,9 +19,9 @@ public class PlatformConfigManager : MonoBehaviour
             cfg.distPlatform = 0.5f;
             cfg.max_distPlatform = 2;
             cfg.platformDict = new Dictionary<string, float>();
-            cfg.platformDict.Add("Nothing",0.7f);
-            cfg.platformDict.Add("BasePlatform", 0.3f);
-
+            cfg.platformDict.Add("Nothing",1);
+            cfg.platformDict.Add("BasePlatform", 1);
+            cfg.platformDict.Add("BasePlatform_Spring", 0.1f);
             string json = JsonConvert.SerializeObject(cfg);
             File.WriteAllText(m_Path + "/LevelConfigs/config.json", json);
         }
@@ -36,6 +36,7 @@ public class PlatformConfigManager : MonoBehaviour
     {
         Debug.Log(cfg);
     }
+
     public void SaveConfig()
     {
         //Convert the ConfigData object to a JSON string.

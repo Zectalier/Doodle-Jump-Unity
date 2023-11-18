@@ -13,6 +13,7 @@ namespace DoodleJump
 
         public GameObject UIManager;
         public GameObject platformPrefab;
+        public GameObject springPrefab;
 
         public GameObject platformGenConfig;
         PlatformConfigManager genConfig;
@@ -27,6 +28,8 @@ namespace DoodleJump
 
         public float min_x;
         public float max_x;
+
+        private int last_jumpable_platform = 999;
         // Start is called before the first frame update
         void Start()
         {
@@ -67,13 +70,12 @@ namespace DoodleJump
                 if(entry.Key != "Nothing")
                 {
                     ind_jumpable.Add(entry.Key);
-                    probs_jumpable.Add(entry.Value + totalprob);
+                    probs_jumpable.Add(entry.Value + totalprob_jumpable);
                     totalprob_jumpable += entry.Value;
                 }
             }
 
             float current_y = min_y + cfg.distPlatform;
-            int last_jumpable_platform = 999;
             while(current_y < max_y)
             {
                 if (last_jumpable_platform < cfg.max_distPlatform)
@@ -107,6 +109,7 @@ namespace DoodleJump
                         if (randomPoint < probs_jumpable[i])
                         {
                             platform_chosen = ind_jumpable[i];
+                            break;
                         }
                     }
                     spawnPlatform(platform_chosen, current_y, min_x, max_x);
@@ -122,6 +125,12 @@ namespace DoodleJump
             switch (platform_type) {
                 case "BasePlatform":
                     Instantiate(platformPrefab, pos, Quaternion.identity);
+                    break;
+                case "BasePlatform_Spring":
+                    GameObject plat = Instantiate(platformPrefab, pos, Quaternion.identity);
+                    Vector3 springPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.24), 0);
+                    GameObject s = Instantiate(springPrefab, springPos, Quaternion.identity);
+                    s.transform.parent = plat.transform;
                     break;
             }
         }
