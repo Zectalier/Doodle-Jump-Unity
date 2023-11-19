@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class PlatformConfigManager : MonoBehaviour
+public class LevelConfigManager : MonoBehaviour
 {
-    public static PlatformGeneratorConfig cfg = new PlatformGeneratorConfig();
+    public static LevelGemeratorConfig cfg = new LevelGemeratorConfig();
     string m_Path;
 
     private void Awake()
@@ -15,7 +15,7 @@ public class PlatformConfigManager : MonoBehaviour
         if (!System.IO.File.Exists(m_Path + "/LevelConfigs/config.json"))
         {
             //Config par défaut
-            cfg = new PlatformGeneratorConfig();
+            cfg = new LevelGemeratorConfig();
             cfg.distPlatform = 0.5f;
             cfg.max_distPlatform = 2;
             cfg.platformDict = new Dictionary<string, float>();
@@ -28,8 +28,7 @@ public class PlatformConfigManager : MonoBehaviour
         }
         else
         {
-            string savedJson = File.ReadAllText(m_Path + "/LevelConfigs/config.json");
-            cfg = JsonConvert.DeserializeObject<PlatformGeneratorConfig>(savedJson);
+            LoadConfig("config");
         }
     }
 
@@ -47,16 +46,16 @@ public class PlatformConfigManager : MonoBehaviour
         File.WriteAllText(m_Path + "/LevelConfigs/config.json", json);
     }
 
-    public void LoadConfig()
+    public void LoadConfig(string configName)
     {
         //Get the JSON string from the file on disk.
-        string savedJson = File.ReadAllText(m_Path + "/LevelConfigs/config.json");
+        string savedJson = File.ReadAllText(m_Path + "/LevelConfigs/" + configName + ".json");
 
         //Convert the JSON string back to a ConfigData object.
-        cfg = JsonConvert.DeserializeObject<PlatformGeneratorConfig>(savedJson);
+        cfg = JsonConvert.DeserializeObject<LevelGemeratorConfig>(savedJson);
     }
 
-    public PlatformGeneratorConfig GetConfig()
+    public LevelGemeratorConfig GetConfig()
     {
         return cfg;
     }

@@ -25,13 +25,14 @@ public class Platform : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("trigger");
-        if (collision.tag == "Finish")
+        if (collision.tag == "Finish") //If the platform touch the finish trigger box, destroy this
             Destroy(this.gameObject);
-        else if (collision.tag == "Player" && platformType == "Breakable")
+        else if (collision.tag == "Player" && platformType == "Breakable") //If the trigger is the player, apply special behaviour
             if(collision.attachedRigidbody.velocity.y <= 0F)
                 ApplySpecialBehaviour(platformType);
     }
 
+    //Apply special behaviour if needed (ie. breakable platform needs to break when hit)
     private void ApplySpecialBehaviour(string type)
     {
         switch (platformType)

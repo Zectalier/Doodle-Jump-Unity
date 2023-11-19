@@ -8,7 +8,11 @@ public class CameraManager : MonoBehaviour
 
     public Transform target;
     public GameObject gameManager;
+    public GameObject platformGenerationManager;
+
     GameManager gm;
+    PlatformGenerationManager pgm;
+
     public Transform backg1;
     public Transform backg2;
     public Transform endMenu;
@@ -18,6 +22,7 @@ public class CameraManager : MonoBehaviour
     {
         size = backg1.GetComponent<BoxCollider2D>().size.y;
         gm = gameManager.GetComponent<GameManager>();
+        pgm = platformGenerationManager.GetComponent<PlatformGenerationManager>();
     }
 
     // Update is called once per frame
@@ -48,7 +53,7 @@ public class CameraManager : MonoBehaviour
         Transform temp = backg1;
         backg1 = backg2;
         backg2 = temp;
-        gm.spawnNextPlatforms(backg1.position.y + size/2, backg1.position.y + size + size / 2);
+        pgm.spawnNextPlatforms(backg1.position.y + size/2, backg1.position.y + size + size / 2);
     }
 
 }

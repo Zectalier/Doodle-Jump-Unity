@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DoodleJump;
 
-public class PlatformGeneratorConfig
+public class LevelGemeratorConfig
 {
     public float distPlatform; //distance minimum entre chaque platforme
 
