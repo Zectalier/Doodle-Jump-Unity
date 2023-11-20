@@ -1,3 +1,4 @@
+using DoodleJump;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     GameObject[] endObjects;
+    GameObject[] pauseObjects;
+    GameManager gameManager;
 
     public Player player;
 
@@ -13,7 +16,11 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         endObjects = GameObject.FindGameObjectsWithTag("ShowOnEnd");
+        pauseObjects = GameObject.FindGameObjectsWithTag("PauseUi");
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
         hideEnd();
+        hidePause();
     }
 
     public void Reload(){
@@ -38,5 +45,28 @@ public class UIManager : MonoBehaviour
         foreach(GameObject g in endObjects){
             g.SetActive(false);
         }
+    }
+
+    public void pauseGame()
+    {
+        if (gameManager.getGameState() == GAME_STATE.playing)
+        {
+            Time.timeScale = 0;
+            foreach (GameObject g in pauseObjects)
+                g.SetActive(true);
+        }
+    }
+
+    public void resumeGame()
+    {
+        Time.timeScale = 1;
+        foreach (GameObject g in pauseObjects)
+            g.SetActive(false);
+    }
+
+    void hidePause()
+    {
+        foreach (GameObject g in pauseObjects)
+            g.SetActive(false);
     }
 }

@@ -27,6 +27,7 @@ public class PlatformGenerationManager : MonoBehaviour
 
     public void spawnNextPlatforms(float min_y, float max_y)
     {
+        last_jumpable_platform = 999;
         LevelGemeratorConfig cfg = genConfig.GetConfig();
         List<string> ind = new List<string>();
         List<float> probs = new List<float>();
@@ -36,7 +37,6 @@ public class PlatformGenerationManager : MonoBehaviour
 
         float totalprob = 0;
         float totalprob_jumpable = 0;
-
         foreach (KeyValuePair<string, float> entry in cfg.platformDict)
         {
             ind.Add(entry.Key);
@@ -53,6 +53,7 @@ public class PlatformGenerationManager : MonoBehaviour
         float current_y = min_y + cfg.distPlatform;
         while (current_y < max_y)
         {
+            int optional_distance = 0;
             if (last_jumpable_platform < cfg.max_distPlatform)
             {
                 float randomPoint = Random.value * totalprob;
@@ -65,20 +66,21 @@ public class PlatformGenerationManager : MonoBehaviour
                         break;
                     }
                 }
-                if (platform_chosen == "BreakablePlatform")
+                switch (platform_chosen)
                 {
-                    spawnPlatform(platform_chosen, current_y, min_x, max_x);
-                    last_jumpable_platform++;
+                    case "BreakablePlatform":
+                        optional_distance = spawnPlatform(platform_chosen, current_y, min_x, max_x);
+                        last_jumpable_platform++;
+                        break;
+                    case "Nothing":
+                        last_jumpable_platform++;
+                        break;
+                    default:
+                        optional_distance = spawnPlatform(platform_chosen, current_y, min_x, max_x);
+                        last_jumpable_platform = 0;
+                        break;
                 }
-                else if (platform_chosen != "Nothing")
-                {
-                    spawnPlatform(platform_chosen, current_y, min_x, max_x);
-                    last_jumpable_platform = 0;
-                }
-                else
-                {
-                    last_jumpable_platform++;
-                }
+                current_y += cfg.distPlatform * optional_distance;
             }
             else
             {
@@ -92,16 +94,18 @@ public class PlatformGenerationManager : MonoBehaviour
                         break;
                     }
                 }
-                spawnPlatform(platform_chosen, current_y, min_x, max_x);
+                optional_distance = spawnPlatform(platform_chosen, current_y, min_x, max_x);
+                current_y += cfg.distPlatform * optional_distance;
                 last_jumpable_platform = 0;
             }
             current_y = current_y + cfg.distPlatform;
         }
     }
 
-    void spawnPlatform(string platform_type, float y, float min_x, float max_x)
+    int spawnPlatform(string platform_type, float y, float min_x, float max_x)
     {
         Vector3 pos = new Vector3(Random.Range(min_x, max_x), y, 0);
+        int platform_distance_optional = 0; //Number of platforms to skip (ie. for spring don't spawn new platform instantly after the spring)
         switch (platform_type)
         {
             case "BasePlatform":
@@ -112,6 +116,7 @@ public class PlatformGenerationManager : MonoBehaviour
                 Vector3 springPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.24), 0);
                 GameObject s = Instantiate(springPrefab, springPos, Quaternion.identity);
                 s.transform.parent = plat.transform;
+                platform_distance_optional = 4;
                 break;
             case "BreakablePlatform":
                 Instantiate(breakablePrefab, pos, Quaternion.identity);
@@ -123,5 +128,6 @@ public class PlatformGenerationManager : MonoBehaviour
                 Instantiate(movingPrefab, pos, Quaternion.identity);
                 break;
         }
+        return platform_distance_optional;
     }
 }

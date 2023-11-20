@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         moveX = Input.GetAxis("Horizontal");
-
-        
     }
 
     private void FixedUpdate()

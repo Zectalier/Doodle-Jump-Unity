@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DoodleJump
 {
-    public enum GAME_STATE { level1, level2, level3, gameOver };
+    public enum GAME_STATE { playing, gameOver };
 
     public class GameManager : MonoBehaviour
     {
