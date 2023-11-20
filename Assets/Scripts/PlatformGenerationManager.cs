@@ -7,6 +7,8 @@ public class PlatformGenerationManager : MonoBehaviour
     public GameObject platformPrefab;
     public GameObject springPrefab;
     public GameObject breakablePrefab;
+    public GameObject onetimeusePrefab;
+    public GameObject movingPrefab;
 
     public GameObject levelGenConfig;
     LevelConfigManager genConfig;
@@ -113,6 +115,12 @@ public class PlatformGenerationManager : MonoBehaviour
                 break;
             case "BreakablePlatform":
                 Instantiate(breakablePrefab, pos, Quaternion.identity);
+                break;
+            case "OnetimeusePlatform":
+                Instantiate(onetimeusePrefab, pos, Quaternion.identity);
+                break;
+            case "MovingPlatform":
+                Instantiate(movingPrefab, pos, Quaternion.identity);
                 break;
         }
     }

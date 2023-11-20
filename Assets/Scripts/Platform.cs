@@ -49,6 +49,9 @@ public class Platform : MonoBehaviour
                 Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
                 rigidbody.bodyType = RigidbodyType2D.Dynamic;
                 break;
+            case "OneTimeUse":
+                Destroy(this.gameObject);
+                break;
         }
     }
 }
