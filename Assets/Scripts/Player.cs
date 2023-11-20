@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
     // Last time the player shot a projectile
     private float lastShotTime = 0f;
     
+    private bool accelerationEnabled;
+    
     // Start is called before the first frame update
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
@@ -76,6 +78,16 @@ public class Player : MonoBehaviour {
         // Change the animation variable isShooting to true when the last shot time is more than 0.1 seconds ago.
         if (Time.time - lastShotTime > 0.1f)
             GetComponent<Animator>().SetBool("isShooting", false);
+        accelerationEnabled = SystemInfo.supportsAccelerometer;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (accelerationEnabled)
+            moveX = Input.acceleration.x*2;
+        else
+            moveX = Input.GetAxis("Horizontal");
     }
 
     private void FixedUpdate() {
@@ -86,9 +98,9 @@ public class Player : MonoBehaviour {
         // Make the sprite flip using the moveX (do not count 0) and keep scales
         Vector3 scale = transform.localScale;
 
-        if (moveX < 0)
+        if (moveX < 0.2)
             scale.x = 1;
-        else if (moveX > 0)
+        else if (moveX > 0.2)
             scale.x = -1;
 
         transform.localScale = scale;

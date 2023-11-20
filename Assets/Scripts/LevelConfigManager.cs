@@ -12,7 +12,7 @@ public class LevelConfigManager : MonoBehaviour
     private void Awake()
     {
         m_Path = Application.dataPath;
-        if (!System.IO.File.Exists(m_Path + "/LevelConfigs/config.json"))
+        if (!System.IO.File.Exists(m_Path + "/Resources/config.json"))
         {
             //Config par défaut
             cfg = new LevelGemeratorConfig();
@@ -24,7 +24,7 @@ public class LevelConfigManager : MonoBehaviour
             cfg.platformDict.Add("BasePlatform", 1f);
             cfg.platformDict.Add("BasePlatform_Spring", 0.1f);
             string json = JsonConvert.SerializeObject(cfg);
-            File.WriteAllText(m_Path + "/LevelConfigs/config.json", json);
+            File.WriteAllText(m_Path + "/Resources/config.json", json);
         }
         else
         {
@@ -43,13 +43,14 @@ public class LevelConfigManager : MonoBehaviour
         string json = JsonConvert.SerializeObject(cfg);
 
         //Write the JSON string to a file on disk.
-        File.WriteAllText(m_Path + "/LevelConfigs/config.json", json);
+        File.WriteAllText(m_Path + "/Resources/config.json", json);
     }
 
     public void LoadConfig(string configName)
     {
         //Get the JSON string from the file on disk.
-        string savedJson = File.ReadAllText(m_Path + "/LevelConfigs/" + configName + ".json");
+        TextAsset content = Resources.Load(configName) as TextAsset;
+        string savedJson = content.ToString();
 
         //Convert the JSON string back to a ConfigData object.
         cfg = JsonConvert.DeserializeObject<LevelGemeratorConfig>(savedJson);
