@@ -79,11 +79,7 @@ public class Player : MonoBehaviour {
         if (Time.time - lastShotTime > 0.1f)
             GetComponent<Animator>().SetBool("isShooting", false);
         accelerationEnabled = SystemInfo.supportsAccelerometer;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
         if (accelerationEnabled)
             moveX = Input.acceleration.x*2;
         else
