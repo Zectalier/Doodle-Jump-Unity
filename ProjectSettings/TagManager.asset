@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ShowOnEnd
   - PauseUi
+  - Projectile
   layers:
   - Default
   - TransparentFX

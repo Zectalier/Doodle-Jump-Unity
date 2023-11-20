@@ -817,10 +817,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.10044202
-    width: 1
-    height: 0.79911596
+    x: 0.35659814
+    y: 0
+    width: 0.28680372
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -4221,6 +4221,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2280153684025686635, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 238db7385242d414e90cdb0a8cf8d730, type: 2}
     - target: {fileID: 2980132086245413894, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -4233,6 +4237,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 72718488}
+    - target: {fileID: 2980132086245413894, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 8534483014853305458, guid: c06436bc7988db3488da460e9516f851, type: 3}
     - target: {fileID: 5620323110042522628, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_RootOrder
       value: 2

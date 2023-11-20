@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5620323110042522630}
   - component: {fileID: 5620323110042522631}
   - component: {fileID: 2980132086245413894}
+  - component: {fileID: 2280153684025686635}
   m_Layer: 0
   m_Name: Doodler
   m_TagString: Untagged
@@ -144,7 +145,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e08e5fb589743241a21653bb0274ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  projectilePrefab: {fileID: 0}
   MovementSpeed: 8
   background: {fileID: 0}
-  leftx: 0
-  rightx: 0
+--- !u!95 &2280153684025686635
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620323110042522632}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 238db7385242d414e90cdb0a8cf8d730, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
