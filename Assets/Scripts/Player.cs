@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 
     public Transform background;
 
-    float leftx;
+    float leftx; //position edge background
     float rightx;
     float moveX = 0f;
 
@@ -30,6 +30,9 @@ public class Player : MonoBehaviour {
     private Transform bodyTransform;
     private Transform noseTransform;
     private Quaternion noseRotation;
+
+    private bool facingDirection = false; //false for left, true for right
+
     // Start is called before the first frame update
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
@@ -128,15 +131,23 @@ public class Player : MonoBehaviour {
         m_Rigidbody.velocity = velocity;
 
         // Make the sprite flip using the moveX (do not count 0) and keep scales
-        Vector3 scale = transform.localScale;
-
-        if (moveX < -0.2)
+        if (velocity.x < -0.5 && facingDirection == true)
+        {
+            Vector3 scale = transform.localScale;
             scale.x = 1;
-        else if (moveX > 0.2)
+            bodyTransform.localScale = scale;
+            facingDirection = false;
+        }
+        else if (velocity.x > 0.5 && facingDirection == false)
+        {
+            Vector3 scale = transform.localScale;
             scale.x = -1;
+            bodyTransform.localScale = scale;
+            facingDirection = true;
+        }
 
-        bodyTransform.localScale = scale;
 
+        //Teleportation logic
         if (transform.position.x < leftx) {
             Vector2 newPos = new Vector2(rightx, transform.position.y);
             transform.position = newPos;
