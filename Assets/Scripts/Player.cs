@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
     // Last time the player shot a projectile
     private float lastShotTime = 0f;
     
+    private bool accelerationEnabled;
+    
     // Start is called before the first frame update
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour {
         // Check if the platform is Android
         if (Application.platform == RuntimePlatform.Android)
             isAndroid = true;
+        accelerationEnabled = SystemInfo.supportsAccelerometer;
 
         // Set the last shot time to the current time
         lastShotTime = Time.time;
@@ -44,27 +47,36 @@ public class Player : MonoBehaviour {
 
         // If the platform is Android, we shoot where the player touches the screen.
         if (isAndroid) {
-            Debug.Log("Android");
             if (Input.touchCount > 0) {
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Moved) {
                     // Create a new Projectile and set the position to the player's position.
                     GameObject projectile = Instantiate(projectilePrefab as GameObject);
                     projectile.transform.position = transform.position;
+
                     // Set the direction of the projectile to where the player touched the screen.
-                    projectile.GetComponent<Projectile>().direction = touch.deltaPosition.normalized;
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    if(mousePos.y < transform.position.y + 2)
+                        mousePos.y = transform.position.y + 2;
+
+                    projectile.GetComponent<Projectile>().direction = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                    
                     // Change the animation variable isShooting to true.
                     GetComponent<Animator>().SetBool("isShooting", true);
                 }
             }
         } else {
-            // If the platform is not Android, we shoot when the player presses the up arrow.
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            if (Input.GetMouseButtonDown(0)) {
                 // Create a new Projectile and set the position to the player's position.
                 GameObject projectile = Instantiate(projectilePrefab as GameObject);
                 projectile.transform.position = transform.position;
-                // Set the direction of the projectile to up.
-                projectile.GetComponent<Projectile>().direction = Vector3.up;
+
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if (mousePos.y < transform.position.y + 2)
+                    mousePos.y = transform.position.y + 2;
+
+                projectile.GetComponent<Projectile>().direction = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+
                 // Change the animation variable isShooting to true.
                 GetComponent<Animator>().SetBool("isShooting", true);
 
@@ -76,6 +88,11 @@ public class Player : MonoBehaviour {
         // Change the animation variable isShooting to true when the last shot time is more than 0.1 seconds ago.
         if (Time.time - lastShotTime > 0.1f)
             GetComponent<Animator>().SetBool("isShooting", false);
+
+        if (accelerationEnabled)
+            moveX = Input.acceleration.x*2;
+        else
+            moveX = Input.GetAxis("Horizontal");
     }
 
     private void FixedUpdate() {
@@ -86,9 +103,9 @@ public class Player : MonoBehaviour {
         // Make the sprite flip using the moveX (do not count 0) and keep scales
         Vector3 scale = transform.localScale;
 
-        if (moveX < 0)
+        if (moveX < 0.2)
             scale.x = 1;
-        else if (moveX > 0)
+        else if (moveX > 0.2)
             scale.x = -1;
 
         transform.localScale = scale;
