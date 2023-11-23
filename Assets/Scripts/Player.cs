@@ -62,23 +62,21 @@ public class Player : MonoBehaviour {
         if (isAndroid) {
             if (Input.touchCount > 0) {
                 Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Moved) {
-                    // Create a new Projectile and set the position to the player's position.
-                    GameObject projectile = Instantiate(projectilePrefab as GameObject);
-                    projectile.transform.position = transform.position;
+                // Create a new Projectile and set the position to the player's position.
+                GameObject projectile = Instantiate(projectilePrefab as GameObject);
+                projectile.transform.position = transform.position;
 
-                    // Set the direction of the projectile to where the player touched the screen.
-                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    if(mousePos.y < transform.position.y + 2)
-                        mousePos.y = transform.position.y + 2;
+                // Set the direction of the projectile to where the player touched the screen.
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if(mousePos.y < transform.position.y + 2)
+                    mousePos.y = transform.position.y + 2;
 
-                    Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                    projectile.GetComponent<Projectile>().direction = newDirection;
+                Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                projectile.GetComponent<Projectile>().direction = newDirection;
 
-                    noseTransform.up = newDirection;
-                    // Change the animation trigger isShooting to true.
-                    shootAnimation();
-                }
+                noseTransform.up = newDirection;
+                // Change the animation trigger isShooting to true.
+                shootAnimation();
             }
         } else {
             if (Input.GetMouseButtonDown(0)) {
