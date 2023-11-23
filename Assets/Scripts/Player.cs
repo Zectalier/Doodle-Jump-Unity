@@ -24,7 +24,12 @@ public class Player : MonoBehaviour {
     private float lastShotTime = 0f;
     
     private bool accelerationEnabled;
-    
+
+    Animator m_Animator;
+
+    private Transform bodyTransform;
+    private Transform noseTransform;
+    private Quaternion noseRotation;
     // Start is called before the first frame update
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
@@ -39,6 +44,11 @@ public class Player : MonoBehaviour {
 
         // Set the last shot time to the current time
         lastShotTime = Time.time;
+
+        m_Animator = GetComponent<Animator>();
+
+        bodyTransform = this.gameObject.transform.GetChild(0); //Should be the body Transform
+        noseTransform = this.gameObject.transform.GetChild(1); //Should be the nose Transform
     }
 
     // Update is called once per frame
@@ -59,10 +69,12 @@ public class Player : MonoBehaviour {
                     if(mousePos.y < transform.position.y + 2)
                         mousePos.y = transform.position.y + 2;
 
-                    projectile.GetComponent<Projectile>().direction = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                    
-                    // Change the animation variable isShooting to true.
-                    GetComponent<Animator>().SetBool("isShooting", true);
+                    Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                    projectile.GetComponent<Projectile>().direction = newDirection;
+
+                    noseTransform.up = newDirection;
+                    // Change the animation trigger isShooting to true.
+                    shootAnimation();
                 }
             }
         } else {
@@ -75,22 +87,37 @@ public class Player : MonoBehaviour {
                 if (mousePos.y < transform.position.y + 2)
                     mousePos.y = transform.position.y + 2;
 
-                projectile.GetComponent<Projectile>().direction = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                projectile.GetComponent<Projectile>().direction = newDirection;
 
-                // Change the animation variable isShooting to true.
-                GetComponent<Animator>().SetBool("isShooting", true);
+                noseTransform.up = newDirection;
+                // Change the animation trigger isShooting to true.
+                shootAnimation();
+
+                // Set the last shot time to the current time
+                lastShotTime = Time.time;
+            }
+            else if (Input.GetKey("up"))
+            {
+                // Create a new Projectile and set the position to the player's position.
+                GameObject projectile = Instantiate(projectilePrefab as GameObject);
+                projectile.transform.position = transform.position;
+
+                Vector3 newDirection = Vector3.up;
+                projectile.GetComponent<Projectile>().direction = newDirection;
+
+                noseTransform.up = newDirection;
+                // Change the animation trigger isShooting to true.
+                shootAnimation();
 
                 // Set the last shot time to the current time
                 lastShotTime = Time.time;
             }
         }
 
-        // Change the animation variable isShooting to true when the last shot time is more than 0.1 seconds ago.
-        if (Time.time - lastShotTime > 0.1f)
-            GetComponent<Animator>().SetBool("isShooting", false);
 
         if (accelerationEnabled)
-            moveX = Input.acceleration.x*2;
+            moveX = Mathf.Clamp(Input.acceleration.x*2,-1,1);
         else
             moveX = Input.GetAxis("Horizontal");
     }
@@ -103,12 +130,12 @@ public class Player : MonoBehaviour {
         // Make the sprite flip using the moveX (do not count 0) and keep scales
         Vector3 scale = transform.localScale;
 
-        if (moveX < 0.2)
+        if (moveX < -0.2)
             scale.x = 1;
         else if (moveX > 0.2)
             scale.x = -1;
 
-        transform.localScale = scale;
+        bodyTransform.localScale = scale;
 
         if (transform.position.x < leftx) {
             Vector2 newPos = new Vector2(rightx, transform.position.y);
@@ -130,5 +157,17 @@ public class Player : MonoBehaviour {
             }
             
         }
+    }
+
+    private void shootAnimation()
+    {
+        m_Animator.ResetTrigger("hasJumped");
+        m_Animator.SetTrigger("hasShot");
+    }
+
+    public void jumpAnimation()
+    {
+        m_Animator.ResetTrigger("hasJumped");
+        m_Animator.SetTrigger("hasJumped");
     }
 }

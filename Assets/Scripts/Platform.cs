@@ -42,6 +42,7 @@ public class Platform : MonoBehaviour
                 spr.swapSprite();
                 EdgeCollider2D edgeCollider2D = gameObject.GetComponent<EdgeCollider2D>();
                 edgeCollider2D.isTrigger = true;
+                GameObject.Find("Doodler").GetComponent<Player>().jumpAnimation();
                 break;
             case "Breakable":
                 Breakable brk = gameObject.GetComponent<Breakable>();
@@ -50,7 +51,11 @@ public class Platform : MonoBehaviour
                 rigidbody.bodyType = RigidbodyType2D.Dynamic;
                 break;
             case "OneTimeUse":
+                GameObject.Find("Doodler").GetComponent<Player>().jumpAnimation();
                 Destroy(this.gameObject);
+                break;
+            default:
+                GameObject.Find("Doodler").GetComponent<Player>().jumpAnimation();
                 break;
         }
     }

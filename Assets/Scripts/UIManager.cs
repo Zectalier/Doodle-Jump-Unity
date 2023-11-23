@@ -17,7 +17,10 @@ public class UIManager : MonoBehaviour
     {
         endObjects = GameObject.FindGameObjectsWithTag("ShowOnEnd");
         pauseObjects = GameObject.FindGameObjectsWithTag("PauseUi");
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        GameObject gm = GameObject.Find("Game Manager");
+        if(gm != null)
+            gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         hideEnd();
         hidePause();
