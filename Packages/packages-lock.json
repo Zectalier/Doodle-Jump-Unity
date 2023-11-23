@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.tobii.gaming.sdk": {
+      "version": "file:D:/Fac/Master/EVHI/Ressources pour le cours sur loculométrie (S Lallé)-20231123/TobiiUnitySDK_5.0.0.3",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "5.0.7",
       "depth": 0,
