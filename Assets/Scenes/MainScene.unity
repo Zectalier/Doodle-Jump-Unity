@@ -795,6 +795,7 @@ MonoBehaviour:
   target: {fileID: 819523211}
   gameManager: {fileID: 72718488}
   platformGenerationManager: {fileID: 1685362552}
+  monsterGenerationManager: {fileID: 1440748556}
   backg1: {fileID: 1002218435}
   backg2: {fileID: 743981842}
   endMenu: {fileID: 1944518531}
@@ -817,9 +818,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.35659814
+    x: 0.32447052
     y: 0
-    width: 0.28680372
+    width: 0.35105896
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -2682,6 +2683,55 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 3
   m_TargetDisplay: 0
+--- !u!1 &1440748556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1440748557}
+  - component: {fileID: 1440748558}
+  m_Layer: 0
+  m_Name: Monster Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1440748557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440748556}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1977467729}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1440748558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440748556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5cd19fa03bdee54eba7310dc4e07257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackHolePrefab: {fileID: 5749912413151410944, guid: 25bbedc375e223646bcd41825fd26e01, type: 3}
+  monsterPrefab: {fileID: 4504411198204830689, guid: 2b472ea7eeb407a449b4e7f143a8e5c5, type: 3}
+  fly: {fileID: 4097228363353764106, guid: 0a40ab623b04adc4da97c108b7884a71, type: 3}
+  levelGenConfig: {fileID: 2022322525}
+  min_x: -2.6
+  max_x: 2.6
 --- !u!1 &1472507317
 GameObject:
   m_ObjectHideFlags: 0
@@ -3713,7 +3763,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1944518530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -15, z: 0}
+  m_LocalPosition: {x: 0, y: -10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 55281385}
@@ -3808,6 +3858,7 @@ Transform:
   m_Children:
   - {fileID: 1685362555}
   - {fileID: 2022322526}
+  - {fileID: 1440748557}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4290,8 +4341,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5620323110042522630, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620323110042522630, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_GravityScale
       value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620323110042522631, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5620323110042522632, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_Name

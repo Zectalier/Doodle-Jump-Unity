@@ -9,9 +9,11 @@ public class CameraManager : MonoBehaviour
     public Transform target;
     public GameObject gameManager;
     public GameObject platformGenerationManager;
+    public GameObject monsterGenerationManager;
 
     GameManager gm;
     PlatformGenerationManager pgm;
+    MonsterGenerator mgm;
 
     public Transform backg1;
     public Transform backg2;
@@ -23,6 +25,7 @@ public class CameraManager : MonoBehaviour
         size = backg1.GetComponent<BoxCollider2D>().size.y;
         gm = gameManager.GetComponent<GameManager>();
         pgm = platformGenerationManager.GetComponent<PlatformGenerationManager>();
+        mgm = monsterGenerationManager.GetComponent<MonsterGenerator>();
     }
 
     // Update is called once per frame
@@ -54,6 +57,7 @@ public class CameraManager : MonoBehaviour
         backg1 = backg2;
         backg2 = temp;
         pgm.spawnNextPlatforms(backg1.position.y + size/2, backg1.position.y + size + size / 2);
+        mgm.spawnNextMonsters(backg1.position.y + size/2, backg1.position.y + size + size / 2);
     }
 
 }

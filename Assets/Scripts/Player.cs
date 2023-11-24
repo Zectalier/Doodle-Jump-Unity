@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     GameManager gm;
     public float MovementSpeed = 1.0f;
     Rigidbody2D m_Rigidbody;
+    Collider2D m_Collider;
 
     public Transform background;
 
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour {
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        m_Collider = GetComponent<Collider2D>();
         rightx = background.GetComponent<BoxCollider2D>().size.x / 2;
         leftx = -rightx;
 
@@ -53,17 +55,28 @@ public class Player : MonoBehaviour {
                     // Create a new Projectile and set the position to the player's position.
                     GameObject projectile = Instantiate(projectilePrefab as GameObject);
                     projectile.transform.position = transform.position;
-
                     // Set the direction of the projectile to where the player touched the screen.
                     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     if(mousePos.y < transform.position.y + 2)
                         mousePos.y = transform.position.y + 2;
-
-                    projectile.GetComponent<Projectile>().direction = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                    
-                    // Change the animation variable isShooting to true.
-                    GetComponent<Animator>().SetBool("isShooting", true);
+                    Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                    projectile.GetComponent<Projectile>().direction = newDirection;
+                    noseTransform.up = newDirection;
+                    // Change the animation trigger isShooting to true.
+                    shootAnimation();
                 }
+                // Create a new Projectile and set the position to the player's position.
+                GameObject projectile = Instantiate(projectilePrefab as GameObject);
+                projectile.transform.position = transform.position;
+                // Set the direction of the projectile to where the player touched the screen.
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if(mousePos.y < transform.position.y + 2)
+                    mousePos.y = transform.position.y + 2;
+                Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                projectile.GetComponent<Projectile>().direction = newDirection;
+                noseTransform.up = newDirection;
+                // Change the animation trigger isShooting to true.
+                shootAnimation();
             }
         } else {
             if (Input.GetMouseButtonDown(0)) {
@@ -128,7 +141,14 @@ public class Player : MonoBehaviour {
             else {
                 gm.setGameState(GAME_STATE.gameOver);
             }
-            
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Monster") {
+                gm.setGameState(GAME_STATE.gameOver);
+                // Make the collider a trigger so the player can pass through the monster
+                m_Collider.isTrigger = true;
         }
     }
 }

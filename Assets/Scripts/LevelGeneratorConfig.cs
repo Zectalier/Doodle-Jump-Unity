@@ -9,5 +9,9 @@ public class LevelGemeratorConfig
 
     public int max_distPlatform; //distance maximum entre deux platformes
 
-    public Dictionary<string, float> platformDict; //dictionnaire contenant les platformes existantes et leur proba d'être choisie
+    public int min_distMonster; //distance minimum entre deux monstres
+
+    public Dictionary<string, float> platformDict; //dictionnaire contenant les platformes existantes et leur proba d'ï¿½tre choisie
+
+    public Dictionary<string, float> monsterDict; //dictionnaire contenant les monstres existants et leur proba d'ï¿½tre choisi
 }

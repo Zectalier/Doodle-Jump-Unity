@@ -7,6 +7,7 @@ TagManager:
   - ShowOnEnd
   - PauseUi
   - Projectile
+  - Monster
   layers:
   - Default
   - TransparentFX
