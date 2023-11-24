@@ -59,24 +59,11 @@ public class Player : MonoBehaviour {
                     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     if(mousePos.y < transform.position.y + 2)
                         mousePos.y = transform.position.y + 2;
-                    Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                    projectile.GetComponent<Projectile>().direction = newDirection;
-                    noseTransform.up = newDirection;
-                    // Change the animation trigger isShooting to true.
-                    shootAnimation();
+                    projectile.GetComponent<Projectile>().direction = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                    
+                    // Change the animation variable isShooting to true.
+                    GetComponent<Animator>().SetBool("isShooting", true);
                 }
-                // Create a new Projectile and set the position to the player's position.
-                GameObject projectile = Instantiate(projectilePrefab as GameObject);
-                projectile.transform.position = transform.position;
-                // Set the direction of the projectile to where the player touched the screen.
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if(mousePos.y < transform.position.y + 2)
-                    mousePos.y = transform.position.y + 2;
-                Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                projectile.GetComponent<Projectile>().direction = newDirection;
-                noseTransform.up = newDirection;
-                // Change the animation trigger isShooting to true.
-                shootAnimation();
             }
         } else {
             if (Input.GetMouseButtonDown(0)) {
