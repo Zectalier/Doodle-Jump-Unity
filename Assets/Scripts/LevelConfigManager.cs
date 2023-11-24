@@ -12,7 +12,7 @@ public class LevelConfigManager : MonoBehaviour
     private void Awake()
     {
         m_Path = Application.dataPath;
-        if (!System.IO.File.Exists(m_Path + "/Resources/config.json"))
+        if (!System.IO.File.Exists(m_Path + "/Resources/level0.json"))
         {
             //Config par d�faut
             cfg = new LevelGemeratorConfig();
@@ -30,11 +30,11 @@ public class LevelConfigManager : MonoBehaviour
             cfg.monsterDict.Add("Fly", 0f);
             cfg.monsterDict.Add("BlackHole", 0f);
             string json = JsonConvert.SerializeObject(cfg);
-            File.WriteAllText(m_Path + "/Resources/config.json", json);
+            File.WriteAllText(m_Path + "/Resources/level0.json", json);
         }
         else
         {
-            LoadConfig("config");
+            LoadConfig("level0");
         }
     }
 
@@ -43,13 +43,13 @@ public class LevelConfigManager : MonoBehaviour
         Debug.Log(cfg);
     }
 
-    public void SaveConfig()
+    public void SaveConfig(string configName)
     {
         //Convert the ConfigData object to a JSON string.
         string json = JsonConvert.SerializeObject(cfg);
 
         //Write the JSON string to a file on disk.
-        File.WriteAllText(m_Path + "/Resources/config.json", json);
+        File.WriteAllText(m_Path + "/Resources/" + configName + ".json", json);
     }
 
     public void LoadConfig(string configName)
