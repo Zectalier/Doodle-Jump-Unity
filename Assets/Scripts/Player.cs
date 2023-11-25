@@ -19,10 +19,10 @@ public class Player : MonoBehaviour {
     float rightx;
     float moveX = 0f;
 
-    private bool isAndroid = false;
+    public GameObject usedJetpack;
+    public GameObject usedPropeller;
 
-    // Last time the player shot a projectile
-    private float lastShotTime = 0f;
+    private bool isAndroid = false;
     
     private bool accelerationEnabled;
 
@@ -30,10 +30,24 @@ public class Player : MonoBehaviour {
 
     private Transform bodyTransform;
     private Transform noseTransform;
-    private Quaternion noseRotation;
 
     private bool facingDirection = false; //false for left, true for right
 
+    private bool isPressing;
+    private bool canShoot = true;
+
+    public bool isFlying = false;
+
+    private float flyingSpeed;
+    private float flyingTimeEnd;
+
+    private string currentGadget;
+
+    public AudioSource shoot_audio;
+    public AudioSource fall_audio;
+    public AudioSource jetpack_audio;
+    public AudioSource propeller_audio;
+    public AudioSource jump_audio;
     // Start is called before the first frame update
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
@@ -47,9 +61,6 @@ public class Player : MonoBehaviour {
             isAndroid = true;
         accelerationEnabled = SystemInfo.supportsAccelerometer; 
 
-        // Set the last shot time to the current time
-        lastShotTime = Time.time;
-
         m_Animator = GetComponent<Animator>();
 
         bodyTransform = this.gameObject.transform.GetChild(0); //Should be the body Transform
@@ -59,65 +70,76 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         moveX = Input.GetAxis("Horizontal");
+        if (isAndroid)
+        {
+            if (Input.touchCount == 0)
+                isPressing = false;
+        }
+        else
+            if (Input.GetKey("up") == false)
+                isPressing = false;
 
-        // If the platform is Android, we shoot where the player touches the screen.
-        if (isAndroid) {
-            if (Input.touchCount > 0) {
-                Touch touch = Input.GetTouch(0);
-                // Create a new Projectile and set the position to the player's position.
-                GameObject projectile = Instantiate(projectilePrefab as GameObject);
-                projectile.transform.position = transform.position;
-
-                // Set the direction of the projectile to where the player touched the screen.
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if(mousePos.y < transform.position.y + 2)
-                    mousePos.y = transform.position.y + 2;
-
-                Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                projectile.GetComponent<Projectile>().direction = newDirection;
-
-                noseTransform.up = newDirection;
-                // Change the animation trigger isShooting to true.
-                shootAnimation();
-            }
-        } else {
-            if (Input.GetMouseButtonDown(0)) {
-                // Create a new Projectile and set the position to the player's position.
-                GameObject projectile = Instantiate(projectilePrefab as GameObject);
-                projectile.transform.position = transform.position;
-
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (mousePos.y < transform.position.y + 2)
-                    mousePos.y = transform.position.y + 2;
-
-                Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
-                projectile.GetComponent<Projectile>().direction = newDirection;
-
-                noseTransform.up = newDirection;
-                // Change the animation trigger isShooting to true.
-                shootAnimation();
-
-                // Set the last shot time to the current time
-                lastShotTime = Time.time;
-            }
-            else if (Input.GetKey("up"))
+        if (isPressing == false && canShoot)
+        {
+            // If the platform is Android, we shoot where the player touches the screen.
+            if (isAndroid)
             {
-                // Create a new Projectile and set the position to the player's position.
-                GameObject projectile = Instantiate(projectilePrefab as GameObject);
-                projectile.transform.position = transform.position;
+                if (Input.touchCount > 0)
+                {
+                    Touch touch = Input.GetTouch(0);
+                    // Create a new Projectile and set the position to the player's position.
+                    GameObject projectile = Instantiate(projectilePrefab as GameObject);
+                    projectile.transform.position = transform.position;
 
-                Vector3 newDirection = Vector3.up;
-                projectile.GetComponent<Projectile>().direction = newDirection;
+                    // Set the direction of the projectile to where the player touched the screen.
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    if (mousePos.y < transform.position.y + 2)
+                        mousePos.y = transform.position.y + 2;
 
-                noseTransform.up = newDirection;
-                // Change the animation trigger isShooting to true.
-                shootAnimation();
+                    Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                    projectile.GetComponent<Projectile>().direction = newDirection;
 
-                // Set the last shot time to the current time
-                lastShotTime = Time.time;
+                    noseTransform.up = newDirection;
+                    // Change the animation trigger isShooting to true.
+                    shootAnimation();
+                    isPressing = true;
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // Create a new Projectile and set the position to the player's position.
+                    GameObject projectile = Instantiate(projectilePrefab as GameObject);
+                    projectile.transform.position = transform.position;
+
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    if (mousePos.y < transform.position.y + 2)
+                        mousePos.y = transform.position.y + 2;
+
+                    Vector3 newDirection = (new Vector3(mousePos.x, mousePos.y, 0) - transform.position).normalized;
+                    projectile.GetComponent<Projectile>().direction = newDirection;
+
+                    noseTransform.up = newDirection;
+                    // Change the animation trigger isShooting to true.
+                    shootAnimation();
+                }
+                else if (Input.GetKey("up"))
+                {
+                    // Create a new Projectile and set the position to the player's position.
+                    GameObject projectile = Instantiate(projectilePrefab as GameObject);
+                    projectile.transform.position = transform.position;
+
+                    Vector3 newDirection = Vector3.up;
+                    projectile.GetComponent<Projectile>().direction = newDirection;
+
+                    noseTransform.up = newDirection;
+                    // Change the animation trigger isShooting to true.
+                    shootAnimation();
+                    isPressing = true;
+                }
             }
         }
-
 
         if (accelerationEnabled)
             moveX = Mathf.Clamp(Input.acceleration.x*2,-1,1);
@@ -128,18 +150,21 @@ public class Player : MonoBehaviour {
     private void FixedUpdate() {
         Vector2 velocity = m_Rigidbody.velocity;
         velocity.x = moveX * MovementSpeed;
-        m_Rigidbody.velocity = velocity;
 
         // Make the sprite flip using the moveX (do not count 0) and keep scales
         if (velocity.x < -0.5 && facingDirection == true)
         {
-            bodyTransform.GetComponent<SpriteRenderer>().flipX = false;
+            Vector3 newScale = gameObject.transform.localScale;
+            newScale.x *= -1;
+            gameObject.transform.localScale = newScale;
             facingDirection = false;
         }
         else if (velocity.x > 0.5 && facingDirection == false)
         {
-            bodyTransform.GetComponent<SpriteRenderer>().flipX = true;
-            facingDirection = true;
+            Vector3 newScale = gameObject.transform.localScale;
+            newScale.x *= -1;
+            gameObject.transform.localScale = newScale;
+            facingDirection = false; facingDirection = true;
         }
 
 
@@ -152,6 +177,22 @@ public class Player : MonoBehaviour {
             Vector2 newPos = new Vector2(leftx, transform.position.y);
             transform.position = newPos;
         }
+
+        //Flight logic
+        if (isFlying){
+            if (flyingTimeEnd > Time.time)
+                velocity.y = flyingSpeed;
+            else
+            {
+                isFlying = false;
+                canShoot = true;
+                m_Animator.SetBool("hasJetpack", false);
+                m_Animator.SetBool("hasPropeller", false);
+                loseGadget();
+            }
+        }
+
+        m_Rigidbody.velocity = velocity;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -161,23 +202,33 @@ public class Player : MonoBehaviour {
             }
             else {
                 gm.setGameState(GAME_STATE.gameOver);
+                fall_audio.Play();
             }
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Monster") {
-            gm.setGameState(GAME_STATE.gameOver);
-            // Make the collider a trigger so the player can pass through the monster
-            m_Collider.isTrigger = true;
-        } else if (collision.gameObject.tag == "BlackHole") {
+        else if (collision.gameObject.tag == "Monster")
+        {
+            if (isFlying || flyingTimeEnd + 1 > Time.time) //give 1sec of invicibility
+                collision.gameObject.GetComponent<Monster>().doDeath();
+            else
+            {
+                m_Animator.SetBool("isDead", true);
+                gm.setGameState(GAME_STATE.gameOver);
+                fall_audio.Play();
+                // Make the collider a trigger so the player can pass through the monster
+                m_Collider.isTrigger = true;
+                canShoot = false;
+            }
+        }
+        else if (collision.gameObject.tag == "BlackHole" && !isFlying)
+        {
             transform.position = collision.gameObject.transform.position;
             gm.setGameState(GAME_STATE.gameOver);
-
+            fall_audio.Play();
             // Trigger the black hole animation and disable the rigidbody
             m_Animator.ResetTrigger("hasJumped");
             m_Animator.SetTrigger("hasBlackHoled");
             m_Rigidbody.simulated = false;
+            canShoot = false;
             StartCoroutine(waitAndDestroy(m_Animator.GetCurrentAnimatorStateInfo(0).length));
         }
     }
@@ -187,15 +238,64 @@ public class Player : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
-    private void shootAnimation()
+    public void shootAnimation()
     {
         m_Animator.ResetTrigger("hasJumped");
         m_Animator.SetTrigger("hasShot");
+        shoot_audio.Play();
     }
 
     public void jumpAnimation()
     {
+        if (m_Animator != null)
+        {
+            m_Animator.ResetTrigger("hasJumped");
+            m_Animator.SetTrigger("hasJumped");
+            jump_audio.Play();
+        }
+    }
+
+    public void jetpackAnimation(string animTrigger)
+    {
         m_Animator.ResetTrigger("hasJumped");
-        m_Animator.SetTrigger("hasJumped");
+        m_Animator.ResetTrigger("hasShot");
+        m_Animator.SetBool(animTrigger, true);
+        if (animTrigger == "hasJetpack")
+            jetpack_audio.Play();
+        else
+            propeller_audio.Play();
+    }
+
+    public void setCanShoot(bool boolean)
+    {
+        canShoot = boolean;
+    }
+
+    public void startFlight(float speed, float time, string animTrigger)
+    {
+        isFlying = true;
+        flyingTimeEnd = Time.time + time;
+        flyingSpeed = speed;
+        canShoot = false;
+
+        currentGadget = animTrigger;
+        jetpackAnimation(animTrigger);
+    }
+
+    private void loseGadget()
+    {
+        if(currentGadget == "hasJetpack"){
+            var pref = Instantiate(usedJetpack);
+            int direction = (facingDirection)? (-1) : 1;
+            pref.transform.position = transform.position + new Vector3((float)(direction * 0.41), -0.41f, 0);
+            pref.GetComponent<Rigidbody2D>().velocity = new Vector2(direction, m_Rigidbody.velocity.y + 1);
+        }
+        else if (currentGadget == "hasPropeller")
+        {
+            var pref = Instantiate(usedPropeller);
+            int direction = (facingDirection) ? (-1) : 1;
+            pref.transform.position = transform.position + new Vector3((float)(direction * 0.41), -0.41f, 0);
+            pref.GetComponent<Rigidbody2D>().velocity = new Vector2(direction, m_Rigidbody.velocity.y + 1);
+        }
     }
 }

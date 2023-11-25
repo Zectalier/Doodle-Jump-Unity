@@ -11,8 +11,10 @@ public class Breakable : MonoBehaviour
     public float timeBetweenSwaps = 0.5f;
     public SpriteRenderer spriteRenderer;
 
+    public AudioSource break_sound;
     public void swapSprite()
     {
+        break_sound.Play();
         StartCoroutine(spriteSwapping());
     }
 

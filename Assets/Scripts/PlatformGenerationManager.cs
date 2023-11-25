@@ -9,6 +9,8 @@ public class PlatformGenerationManager : MonoBehaviour
     public GameObject breakablePrefab;
     public GameObject onetimeusePrefab;
     public GameObject movingPrefab;
+    public GameObject propellerPrefab;
+    public GameObject jetpackPrefab;
 
     public GameObject levelGenConfig;
     LevelConfigManager genConfig;
@@ -114,8 +116,22 @@ public class PlatformGenerationManager : MonoBehaviour
             case "BasePlatform_Spring":
                 GameObject plat = Instantiate(platformPrefab, pos, Quaternion.identity);
                 Vector3 springPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.24), 0);
-                GameObject s = Instantiate(springPrefab, springPos, Quaternion.identity);
-                s.transform.parent = plat.transform;
+                GameObject bps = Instantiate(springPrefab, springPos, Quaternion.identity);
+                bps.transform.parent = plat.transform;
+                platform_distance_optional = 4;
+                break;
+            case "BasePlatform_Propeller":
+                GameObject plat1 = Instantiate(platformPrefab, pos, Quaternion.identity);
+                Vector3 propPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.453), 0);
+                GameObject bpp = Instantiate(propellerPrefab, propPos, Quaternion.identity);
+                bpp.transform.parent = plat1.transform;
+                platform_distance_optional = 4;
+                break;
+            case "BasePlatform_Jetpack":
+                GameObject plat2 = Instantiate(platformPrefab, pos, Quaternion.identity);
+                Vector3 jetPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.492), 0);
+                GameObject bpj = Instantiate(jetpackPrefab, jetPos, Quaternion.identity);
+                bpj.transform.parent = plat2.transform;
                 platform_distance_optional = 4;
                 break;
             case "BreakablePlatform":
@@ -126,6 +142,27 @@ public class PlatformGenerationManager : MonoBehaviour
                 break;
             case "MovingPlatform":
                 Instantiate(movingPrefab, pos, Quaternion.identity);
+                break;
+            case "MovingPlatform_Spring":
+                GameObject mplat = Instantiate(platformPrefab, pos, Quaternion.identity);
+                Vector3 mspringPos = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.24), 0);
+                GameObject mps = Instantiate(springPrefab, mspringPos, Quaternion.identity);
+                mps.transform.parent = mplat.transform;
+                platform_distance_optional = 4;
+                break;
+            case "MovingPlatform_Propeller":
+                GameObject mplat1 = Instantiate(movingPrefab, pos, Quaternion.identity); ;
+                Vector3 propPos1 = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.453), 0);
+                GameObject mpp = Instantiate(propellerPrefab, propPos1, Quaternion.identity);
+                mpp.transform.parent = mplat1.transform;
+                platform_distance_optional = 4;
+                break;
+            case "MovingPlatform_Jetpack":
+                GameObject mplat2 = Instantiate(platformPrefab, pos, Quaternion.identity);
+                Vector3 jetPos1 = new Vector3(Random.Range((float)(pos.x - 0.225), (float)(pos.x + 0.225)), (float)(y + 0.492), 0);
+                GameObject mpj = Instantiate(jetpackPrefab, jetPos1, Quaternion.identity);
+                mpj.transform.parent = mplat2.transform;
+                platform_distance_optional = 4;
                 break;
         }
         return platform_distance_optional;

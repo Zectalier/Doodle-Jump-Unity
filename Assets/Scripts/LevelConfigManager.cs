@@ -23,8 +23,11 @@ public class LevelConfigManager : MonoBehaviour
             cfg.platformDict.Add("BreakablePlatform", 0.5f);
             cfg.platformDict.Add("BasePlatform", 1f);
             cfg.platformDict.Add("BasePlatform_Spring", 0.1f);
+            cfg.platformDict.Add("BasePlatform_Propeller", 0.02f);
+            cfg.platformDict.Add("BasePlatform_Jetpack", 0.01f);
             cfg.monsterDict = new Dictionary<string, float>();
-            cfg.min_distMonster = 4;
+            cfg.min_dist_monster = 10;
+            cfg.distMonster = 4;
             cfg.monsterDict.Add("Nothing", 1f);
             cfg.monsterDict.Add("Monster", 1f);
             cfg.monsterDict.Add("Fly", 0f);
@@ -40,7 +43,7 @@ public class LevelConfigManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Debug.Log(cfg);
+        
     }
 
     public void SaveConfig(string configName)

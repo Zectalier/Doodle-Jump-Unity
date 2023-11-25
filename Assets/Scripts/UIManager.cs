@@ -55,17 +55,21 @@ public class UIManager : MonoBehaviour
     {
         if (gameManager.getGameState() == GAME_STATE.playing)
         {
+            gameManager.setGameState(GAME_STATE.paused);
             Time.timeScale = 0;
             foreach (GameObject g in pauseObjects)
                 g.SetActive(true);
         }
+        player.setCanShoot(false);
     }
 
     public void resumeGame()
     {
         Time.timeScale = 1;
+        gameManager.setGameState(GAME_STATE.playing);
         foreach (GameObject g in pauseObjects)
             g.SetActive(false);
+        player.setCanShoot(true);
     }
 
     void hidePause()

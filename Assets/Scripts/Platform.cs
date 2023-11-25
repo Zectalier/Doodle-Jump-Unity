@@ -7,6 +7,8 @@ public class Platform : MonoBehaviour
     public float jumpForce = 10f;
     public string platformType = "Default";
 
+    public AudioSource jump_audio;
+    public AudioSource spring_audio;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.relativeVelocity.y <= 0F) //Check if object colliding is coming from below
@@ -25,16 +27,13 @@ public class Platform : MonoBehaviour
                     ApplySpecialBehaviour(platformType);
                 }
             }
-
-            
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("trigger");
         if (collision.tag == "Finish") //If the platform touch the finish trigger box, destroy this
-            Destroy(this.gameObject);
+            Destroy(this.gameObject,0.5f);
         else if (collision.tag == "Player" && platformType == "Breakable") //If the trigger is the player, apply special behaviour
             if(collision.attachedRigidbody.velocity.y <= 0F)
                 ApplySpecialBehaviour(platformType);

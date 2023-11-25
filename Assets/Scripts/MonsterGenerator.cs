@@ -13,10 +13,13 @@ public class MonsterGenerator : MonoBehaviour
     public float min_x;
     public float max_x;
 
+    public int lastObstacle;
+    public int min_dist_monsters; // Minimum distance before spawning a new monster
     // Start is called before the first frame update
     void Start()
     {
         genConfig = levelGenConfig.GetComponent<LevelConfigManager>();
+        min_dist_monsters = genConfig.GetConfig().min_dist_monster;
     }
 
     public void spawnNextMonsters(float min_y, float max_y){
@@ -33,7 +36,7 @@ public class MonsterGenerator : MonoBehaviour
             totalprob += entry.Value;
         }
 
-        float current_y = min_y + cfg.min_distMonster;
+        float current_y = min_y + cfg.distMonster;
         while (current_y < max_y)
         {
             float randomPoint = Random.value * totalprob;
@@ -46,24 +49,36 @@ public class MonsterGenerator : MonoBehaviour
                     break;
                 }
             }
-            
-            switch (monster_chosen)
+
+            if (lastObstacle >= min_dist_monsters)
             {
-                case "Monster":
-                    spawnMonster(monster_chosen, current_y, min_x, max_x);
-                    current_y += cfg.min_distMonster;
-                    break;
-                case "Fly":
-                    spawnMonster(monster_chosen, current_y, min_x, max_x);
-                    current_y += cfg.min_distMonster;
-                    break;
-                case "BlackHole":
-                    spawnMonster(monster_chosen, current_y, min_x, max_x);
-                    current_y += cfg.min_distMonster;
-                    break;
-                case "Nothing":
-                    current_y ++;
-                    break;
+                switch (monster_chosen)
+                {
+                    case "Monster":
+                        spawnMonster(monster_chosen, current_y, min_x, max_x);
+                        current_y += cfg.distMonster;
+                        lastObstacle = 0;
+                        break;
+                    case "Fly":
+                        spawnMonster(monster_chosen, current_y, min_x, max_x);
+                        current_y += cfg.distMonster;
+                        lastObstacle = 0;
+                        break;
+                    case "BlackHole":
+                        spawnMonster(monster_chosen, current_y, min_x, max_x);
+                        current_y += cfg.distMonster;
+                        lastObstacle = 0;
+                        break;
+                    case "Nothing":
+                        lastObstacle += 1;
+                        current_y++;
+                        break;
+                }
+            }
+            else
+            {
+                lastObstacle += 1;
+                current_y++;
             }
         }
     }

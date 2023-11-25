@@ -9,7 +9,8 @@ public class LevelGemeratorConfig
 
     public int max_distPlatform; //distance maximum entre deux platformes
 
-    public int min_distMonster; //distance minimum entre deux monstres
+    public int min_dist_monster; //distance minimum entre deux monstres/obstacles
+    public int distMonster; //distance entre deux monstres tentative de spawn de monstres
 
     public Dictionary<string, float> platformDict; //dictionnaire contenant les platformes existantes et leur proba d'�tre choisie
 

@@ -1,1 +1,1 @@
-{"distPlatform":0.5,"max_distPlatform":3,"min_distMonster":4,"platformDict":{"Nothing":2.0,"BreakablePlatform":0.5,"BasePlatform":1.0,"BasePlatform_Spring":0.1},"monsterDict":{"Nothing":2, "Monster":0.5, "Fly":0, "BlackHole":0}}
+{"distPlatform":0.5,"max_distPlatform":3,"min_dist_monster":28,"distMonster":4,"platformDict":{"Nothing":2.0,"BreakablePlatform":0.5,"BasePlatform":1.0,"BasePlatform_Spring":0.1, "BasePlatform_Propeller":0.01,"BasePlatform_Jetpack":0.005},"monsterDict":{"Nothing":2, "Monster":0.5, "Fly":0, "BlackHole":0}}

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DoodleJump
 {
-    public enum GAME_STATE { playing, gameOver };
+    public enum GAME_STATE { playing, gameOver, paused};
 
     public class GameManager : MonoBehaviour
     {
@@ -19,6 +19,8 @@ namespace DoodleJump
 
         public GameObject endScore;
         TextMeshProUGUI endScoreinput;
+        public GameObject endHighScore;
+        TextMeshProUGUI endHighScoreinput;
 
         public GameObject mainCamera;
         public float currentScore;
@@ -27,6 +29,10 @@ namespace DoodleJump
         {
             scoreinput = score.GetComponent<TextMeshProUGUI>();
             endScoreinput = endScore.GetComponent<TextMeshProUGUI>();
+            endHighScoreinput = endHighScore.GetComponent<TextMeshProUGUI>();
+
+            if (!PlayerPrefs.HasKey("highscore"))
+                PlayerPrefs.SetInt("highscore", 0);
         }
 
         void FixedUpdate()
@@ -39,7 +45,15 @@ namespace DoodleJump
             else
             {
                 UIManager.GetComponent<UIManager>().showEnd();
-                endScoreinput.text = ((int)(currentScore*10)).ToString();
+
+                int currentHighScore = PlayerPrefs.GetInt("highscore");
+                if (currentHighScore < currentScore * 10)
+                {
+                    PlayerPrefs.SetInt("highscore", (int)(currentScore * 10));
+                    currentHighScore = (int)(currentScore * 10);
+                }
+                endScoreinput.text = ((int)(currentScore * 10)).ToString();
+                endHighScoreinput.text = currentHighScore.ToString();
             }
         }
 

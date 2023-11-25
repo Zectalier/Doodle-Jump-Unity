@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 330056506}
-  score: {fileID: 0}
 --- !u!4 &427852380
 Transform:
   m_ObjectHideFlags: 0
@@ -533,7 +532,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &510286026
 Canvas:
   m_ObjectHideFlags: 0
@@ -1442,9 +1441,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.3244382
+    x: 0.046301603
     y: 0
-    width: 0.3511236
+    width: 0.9073968
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
