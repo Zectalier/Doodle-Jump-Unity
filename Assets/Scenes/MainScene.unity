@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIManager: {fileID: 799057831}
   score: {fileID: 360621895}
+  endScore: {fileID: 1474304371}
   mainCamera: {fileID: 519420028}
   currentScore: 0
 --- !u!4 &72718490
@@ -820,9 +821,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.32451025
+    x: 0.3244382
     y: 0
-    width: 0.3509795
+    width: 0.3511236
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -1678,7 +1679,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 977130210}
-  score: {fileID: 1474304371}
 --- !u!4 &799057833
 Transform:
   m_ObjectHideFlags: 0

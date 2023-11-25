@@ -12,16 +12,12 @@ public class UIManager : MonoBehaviour
     GameManager gameManager;
 
     public Player player;
-    public GameObject score;
-    TextMeshProUGUI scoreinput;
-
 
     // Start is called before the first frame update
     void Start()
     {
         endObjects = GameObject.FindGameObjectsWithTag("ShowOnEnd");
         pauseObjects = GameObject.FindGameObjectsWithTag("PauseUi");
-        scoreinput = score.GetComponent<TextMeshProUGUI>();
 
         GameObject gm = GameObject.Find("Game Manager");
         if(gm != null)
@@ -45,7 +41,6 @@ public class UIManager : MonoBehaviour
 
     public void showEnd(){
         foreach(GameObject g in endObjects){
-            scoreinput.text = ((int)(gameManager.currentScore*10)).ToString();
             g.SetActive(true);
         }
     }
