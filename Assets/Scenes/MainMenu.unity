@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 330056506}
+  score: {fileID: 0}
 --- !u!4 &427852380
 Transform:
   m_ObjectHideFlags: 0
@@ -1441,10 +1442,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.022159725
-    width: 1
-    height: 0.95568055
+    x: 0.3244382
+    y: 0
+    width: 0.3511236
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

@@ -17,12 +17,16 @@ namespace DoodleJump
 
         TextMeshProUGUI scoreinput;
 
+        public GameObject endScore;
+        TextMeshProUGUI endScoreinput;
+
         public GameObject mainCamera;
         public float currentScore;
         // Start is called before the first frame update
         void Start()
         {
             scoreinput = score.GetComponent<TextMeshProUGUI>();
+            endScoreinput = endScore.GetComponent<TextMeshProUGUI>();
         }
 
         void FixedUpdate()
@@ -35,6 +39,7 @@ namespace DoodleJump
             else
             {
                 UIManager.GetComponent<UIManager>().showEnd();
+                endScoreinput.text = ((int)(currentScore*10)).ToString();
             }
         }
 

@@ -11,14 +11,22 @@ public class Platform : MonoBehaviour
     {
         if (collision.relativeVelocity.y <= 0F) //Check if object colliding is coming from below
         {
-            Rigidbody2D rb = collision.collider.attachedRigidbody;
-            if (rb != null)
-            {
-                Vector2 velocity = rb.velocity;
-                velocity.y = jumpForce;
-                rb.velocity = velocity;
-                ApplySpecialBehaviour(platformType);
+            // check if the contact point is below the bottom of the collider
+            ContactPoint2D contact = collision.GetContact(0);
+            float contact_y = contact.point.y;
+            float collider_y = collision.collider.bounds.center.y - collision.collider.bounds.extents.y;
+            if (contact_y <= collider_y){
+                Rigidbody2D rb = collision.collider.attachedRigidbody;
+                if (rb != null)
+                {
+                    Vector2 velocity = rb.velocity;
+                    velocity.y = jumpForce;
+                    rb.velocity = velocity;
+                    ApplySpecialBehaviour(platformType);
+                }
             }
+
+            
         }
     }
 

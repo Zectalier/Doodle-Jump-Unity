@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIManager: {fileID: 799057831}
   score: {fileID: 360621895}
+  endScore: {fileID: 1474304371}
   mainCamera: {fileID: 519420028}
   currentScore: 0
 --- !u!4 &72718490
@@ -820,9 +821,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.0034461021
+    x: 0.3244382
     y: 0
-    width: 0.9931078
+    width: 0.3511236
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -1678,7 +1679,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 977130210}
-  score: {fileID: 1474304371}
 --- !u!4 &799057833
 Transform:
   m_ObjectHideFlags: 0
@@ -4547,10 +4547,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 238db7385242d414e90cdb0a8cf8d730, type: 2}
-    - target: {fileID: 2869974836908316274, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2980132086245413894, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -4614,10 +4610,6 @@ PrefabInstance:
     - target: {fileID: 5620323110042522629, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_SortingOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5620323110042522630, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
-      propertyPath: m_Constraints
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5620323110042522630, guid: 98375e3c1cee2e34ab8ba9339353ce13, type: 3}
       propertyPath: m_GravityScale
