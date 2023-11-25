@@ -45,7 +45,7 @@ public class Player : MonoBehaviour {
         // Check if the platform is Android
         if (Application.platform == RuntimePlatform.Android)
             isAndroid = true;
-        accelerationEnabled = SystemInfo.supportsAccelerometer;
+        accelerationEnabled = SystemInfo.supportsAccelerometer; 
 
         // Set the last shot time to the current time
         lastShotTime = Time.time;
@@ -133,16 +133,12 @@ public class Player : MonoBehaviour {
         // Make the sprite flip using the moveX (do not count 0) and keep scales
         if (velocity.x < -0.5 && facingDirection == true)
         {
-            Vector3 scale = transform.localScale;
-            scale.x = 1;
-            bodyTransform.localScale = scale;
+            bodyTransform.GetComponent<SpriteRenderer>().flipX = false;
             facingDirection = false;
         }
         else if (velocity.x > 0.5 && facingDirection == false)
         {
-            Vector3 scale = transform.localScale;
-            scale.x = -1;
-            bodyTransform.localScale = scale;
+            bodyTransform.GetComponent<SpriteRenderer>().flipX = true;
             facingDirection = true;
         }
 
