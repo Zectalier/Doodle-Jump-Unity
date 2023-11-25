@@ -31,6 +31,13 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // if target has been destroyed, show end menu
+        if (target == null){
+            Vector3 targetPos = new Vector3(endMenu.position.x, endMenu.position.y, transform.position.z);
+            transform.position = targetPos;
+            return;
+        }
+
         if (target.position.y > transform.position.y)
         {
             Vector3 targetPos = new Vector3(transform.position.x, target.position.y, transform.position.z);

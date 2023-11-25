@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     GameManager gm;
     public float MovementSpeed = 1.0f;
     Rigidbody2D m_Rigidbody;
+    Collider2D m_Collider;
 
     public Transform background;
 
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour {
     void Start() {
         gm = gameManager.GetComponent<GameManager>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        m_Collider = GetComponent<Collider2D>();
         rightx = background.GetComponent<BoxCollider2D>().size.x / 2;
         leftx = -rightx;
 
@@ -164,8 +166,29 @@ public class Player : MonoBehaviour {
             else {
                 gm.setGameState(GAME_STATE.gameOver);
             }
-            
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Monster") {
+            gm.setGameState(GAME_STATE.gameOver);
+            // Make the collider a trigger so the player can pass through the monster
+            m_Collider.isTrigger = true;
+        } else if (collision.gameObject.tag == "BlackHole") {
+            transform.position = collision.gameObject.transform.position;
+            gm.setGameState(GAME_STATE.gameOver);
+
+            // Trigger the black hole animation and disable the rigidbody
+            m_Animator.ResetTrigger("hasJumped");
+            m_Animator.SetTrigger("hasBlackHoled");
+            m_Rigidbody.simulated = false;
+            StartCoroutine(waitAndDestroy(m_Animator.GetCurrentAnimatorStateInfo(0).length));
+        }
+    }
+
+    IEnumerator waitAndDestroy(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        Destroy(this.gameObject);
     }
 
     private void shootAnimation()

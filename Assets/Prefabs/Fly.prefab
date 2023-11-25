@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5683575428398495625}
   - component: {fileID: 4202470404055680714}
   - component: {fileID: -4407761331063859476}
+  - component: {fileID: 5264675352976528866}
+  - component: {fileID: 8927283261754056089}
   m_Layer: 0
   m_Name: Fly
   m_TagString: Monster
@@ -112,3 +114,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ca925c4ae2b544fb21461a6d1995a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5264675352976528866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097228363353764106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a672adf953565e4bbe21bdf4b54931c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  min_x: -2.5
+  max_x: 2.5
+  speed: 0.025
+--- !u!95 &8927283261754056089
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097228363353764106}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b222e7565f25ed24985b3845766de8b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
