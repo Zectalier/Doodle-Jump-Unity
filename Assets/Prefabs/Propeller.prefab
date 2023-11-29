@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  delay: 5
+  delay: 4.5
   type: hasPropeller
 --- !u!212 &7701988581991511204
 SpriteRenderer:
